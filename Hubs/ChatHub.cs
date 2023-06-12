@@ -63,7 +63,7 @@ namespace dotnet_core_signal_r.Hubs
                     result.ReturnCode = ReturnCode.Success.Description();
                     result.ReturnMessage = ReturnMessage.Success.Description();
                     // 發送公開訊息給全部人
-                    await Clients.All.SendAsync("PublicMessage", userName, message);
+                    await Clients.All.SendAsync("PublicMessage", userName, message, DateTime.Now.ToString("HH:mm"));
                 }
                 else
                 {
@@ -104,7 +104,7 @@ namespace dotnet_core_signal_r.Hubs
                     result.ReturnCode = ReturnCode.Success.Description();
                     result.ReturnMessage = ReturnMessage.Success.Description();
                     // 發送私訊給指定人
-                    await Clients.Client(privateUser.Id).SendAsync("PrivateMessage", sendUser.Name, message);
+                    await Clients.Client(privateUser.Id).SendAsync("PrivateMessage", sendUser.Name, message, DateTime.Now.ToString("HH:mm"));
                 }
                 else
                 {
