@@ -10,7 +10,7 @@ namespace dotnet_core_signal_r.Hubs
         /// <summary>
         /// 在線聊天室
         /// </summary>
-        private static Dictionary<string, string> liveChatRoom = new Dictionary<string, string>();
+        public static Dictionary<string, string> liveChatRoom = new Dictionary<string, string>();
 
         /// <summary>
         /// 加入聊天室
