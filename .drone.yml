@@ -37,6 +37,7 @@ steps:
         from_secret: SCP_PWD
       port: 22
       overwrite: true
+      rm: true
       target: /file-server/chat_api
       source: chat_api.zip
     when:
@@ -47,9 +48,9 @@ steps:
   - name: artifact Upload Finish
     image: node:16
     commands:
-      - echo "
-        ====================================================================
-        ✅ fileUpload artifact in https://file-server.ronwebs.com/chat_api
+      - echo -e "\n
+        ====================================================================\n
+        ✅ fileUpload artifact in https://file-server.ronwebs.com/chat_api\n
         ===================================================================="
     when:
       branch:
