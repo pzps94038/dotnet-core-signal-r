@@ -44,6 +44,8 @@ steps:
       environment:
         ORIGINS:
           from_secret: ORIGINS
+      envs:
+        - ORIGINS
       script:
         - docker stop chat-api || true &&
           docker rm chat-api || true &&
