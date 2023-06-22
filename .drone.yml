@@ -113,7 +113,7 @@ steps:
       password:
         from_secret: GMAIL_PWD
       from:
-        from_secret: GMAIL_ADDRESS
+        from_secret: GMAIL_SENDER_EMAIL
     when:
       branch:
         - main
