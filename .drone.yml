@@ -16,11 +16,10 @@ steps:
       - mkdir Chat-API
       - dotnet build "dotnet-core-signal-r.csproj" -c Release -o Chat-API
   - name: zip
-    image: lunagod/drone-zip
-    settings:
-      input:
-        - Chat-API
-      output: Chat-API.zip
+    image: node:16
+    commands:
+      - apt-get update && apt-get -y install zip
+      - zip -r Chat-API.zip Chat-API
     when:
       branch:
         - main
