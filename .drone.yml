@@ -13,6 +13,7 @@ steps:
   - name: build
     image: mcr.microsoft.com/dotnet/sdk:7.0
     commands:
+      - mkdir dist
       - dotnet build "dotnet-core-signal-r.csproj" -c Release -o dist --no-restore
   - name: artifact
     image: appleboy/drone-scp
