@@ -15,6 +15,12 @@ steps:
     commands:
       - mkdir dist
       - dotnet build "dotnet-core-signal-r.csproj" -c Release -o dist
+  - name: zip
+    image: lunagod/drone-zip
+    settings:
+      input: 
+        - dist
+      output: chat_api.zip
   - name: artifact
     image: appleboy/drone-scp
     commands:
