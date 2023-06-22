@@ -1,0 +1,68 @@
+kind: pipeline
+name: default
+
+workspace:
+  base: /src
+  path: chat_api
+
+steps:
+  - name: install-package
+    image: mcr.microsoft.com/dotnet/sdk:7.0
+    commands:
+      - dotnet restore "dotnet-core-signal-r.csproj"
+  - name: build
+    image: mcr.microsoft.com/dotnet/sdk:7.0
+    commands:
+      - dotnet build "dotnet-core-signal-r.csproj" -c Release -o --no-restore
+  - name: docker build && push
+    image: plugins/docker
+    settings:
+      repo: pzps94038/chat-api
+      username: pzps94038
+      password:
+        from_secret: DOCKER_PWD
+      no_cache: true
+      tags:
+        - latest
+        - main
+    when:
+      branch:
+        - main
+      event:
+        - push
+  - name: deploy
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: SCP_HOST
+      username:
+        from_secret: SCP_USER
+      password:
+        from_secret: SCP_PWD
+      port: 22
+      command_timeout: 2m
+      environment:
+        ORIGINS:
+          from_secret: ORIGINS
+      script:
+        - docker stop chat-api || true &&
+          docker rm chat-api || true &&
+          docker pull pzps94038/chat-api:latest &&
+          docker run -d -p 8086:80 --name chat-api --restart=always
+          -e ORIGINS="$ORIGINS"
+          -e PORT=80
+          pzps94038/chat-api:latest
+    when:
+      branch:
+        - main
+      event:
+        - push
+
+trigger:
+  branch:
+    - main
+    - develop
+  event:
+    - push
+    - pull_request
+    - tag

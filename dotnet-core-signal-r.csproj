@@ -20,10 +20,12 @@
     <None Remove="Model\" />
     <None Remove="Model\Shared\" />
     <None Remove="Core\" />
+    <None Remove="Enum\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hubs\" />
     <Folder Include="Model\Shared\" />
     <Folder Include="Core\" />
+    <Folder Include="Enum\" />
   </ItemGroup>
 </Project>

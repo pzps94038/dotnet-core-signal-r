@@ -1,4 +1,6 @@
-﻿using dotnet_core_signal_r.Hubs;
+﻿using dotnet_core_signal_r.EnvVarEnum;
+using dotnet_core_signal_r.Hubs;
+using dotnet_core_signal_r.Core;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,7 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder
-        .WithOrigins("http://localhost:4200")
+        .WithOrigins(Environment.GetEnvironmentVariable(EnvVarEnum.ORIGINS.Description())!.Split(','))
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials());
@@ -26,10 +28,9 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-app.UseCors("CorsPolicy");
 app.UseAuthorization();
+app.UseCors("CorsPolicy");
 app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");
-app.UseCors("CorsPolicy");
 app.Run();
 
