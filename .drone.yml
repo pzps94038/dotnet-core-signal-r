@@ -47,9 +47,10 @@ steps:
   - name: artifact Upload Finish
     image: node:16
     commands:
-      - echo ===================================================
-      - echo fileUpload artifact in https://file-server.ronwebs.com/chat_api
-      - echo ===================================================
+      - echo -e "
+      ====================================================================\n
+      ✅ fileUpload artifact in https://file-server.ronwebs.com/chat_api\n
+      ===================================================================="
     when:
       branch:
         - main
@@ -88,6 +89,7 @@ steps:
       envs:
         - ORIGINS
       script:
+        - echo ======開始部署=======
         - docker stop chat-api || true &&
           docker rm chat-api || true &&
           docker pull pzps94038/chat-api:latest &&
@@ -95,6 +97,7 @@ steps:
           -e ORIGINS="$ORIGINS"
           -e PORT=80
           pzps94038/chat-api:latest
+        - echo ======部署完成=======
     when:
       branch:
         - main
