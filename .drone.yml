@@ -23,9 +23,6 @@ steps:
       output: chat_api.zip
   - name: artifact
     image: appleboy/drone-scp
-    commands:
-      - apt install zip
-      - zip -r chat_api.zip dist
     settings:
       host:
         from_secret: SCP_HOST
