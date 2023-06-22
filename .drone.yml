@@ -13,7 +13,22 @@ steps:
   - name: build
     image: mcr.microsoft.com/dotnet/sdk:7.0
     commands:
-      - dotnet build "dotnet-core-signal-r.csproj" -c Release -o --no-restore
+      - dotnet build "dotnet-core-signal-r.csproj" -c Release -o dist --no-restore
+  - name: artifact
+    image: appleboy/drone-scp
+    commands:
+      - zip -r chat_api.zip dist
+    settings:
+      host:
+        from_secret: SCP_HOST
+      username:
+        from_secret: SCP_USER
+      password:
+        from_secret: SCP_PWD
+      port: 22
+      overwrite: true
+      target: /file-server/${DRONE_REPO_NAME}
+      source: chat_api.zip
   - name: docker build && push
     image: plugins/docker
     settings:
@@ -33,8 +48,8 @@ steps:
   - name: deploy
     image: appleboy/drone-ssh
     environment:
-        ORIGINS:
-          from_secret: ORIGINS
+      ORIGINS:
+        from_secret: ORIGINS
     settings:
       host:
         from_secret: SCP_HOST
