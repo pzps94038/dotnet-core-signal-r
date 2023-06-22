@@ -114,6 +114,9 @@ steps:
         from_secret: GMAIL_PWD
       from:
         from_secret: GMAIL_SENDER_EMAIL
+      recipients_only: true
+      recipients:
+        - pzps94038@yahoo.com.tw
     when:
       branch:
         - main
