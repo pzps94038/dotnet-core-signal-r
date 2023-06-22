@@ -104,6 +104,21 @@ steps:
         - main
       event:
         - push
+  - name: notify
+    image: drillster/drone-email
+    settings:
+      host: smtp.gmail.com
+      username:
+        from_secret: GMAIL_SENDER_EMAIL
+      password:
+        from_secret: GMAIL_PWD
+      from:
+        from_secret: GMAIL_ADDRESS
+    when:
+      branch:
+        - main
+      event:
+        - push
 
 trigger:
   branch:
