@@ -122,6 +122,9 @@ steps:
         - main
       event:
         - push
+      status:
+        - success
+        - failure
 
 trigger:
   branch:
