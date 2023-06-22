@@ -28,10 +28,6 @@ steps:
         - push
   - name: artifact
     image: appleboy/drone-scp
-    commands:
-      - echo ===================================================
-      - echo fileUpload artifact in https://file-server.ronwebs.com/chat_api
-      - echo ===================================================
     settings:
       host:
         from_secret: SCP_HOST
@@ -43,6 +39,17 @@ steps:
       overwrite: true
       target: /file-server/chat_api
       source: chat_api.zip
+    when:
+      branch:
+        - main
+      event:
+        - push
+  - name: artifact Upload Finish
+    image: node:16
+    commands:
+      - echo ===================================================
+      - echo fileUpload artifact in https://file-server.ronwebs.com/chat_api
+      - echo ===================================================
     when:
       branch:
         - main
