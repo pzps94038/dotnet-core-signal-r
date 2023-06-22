@@ -48,9 +48,9 @@ steps:
     image: node:16
     commands:
       - echo -e "
-      ====================================================================\n
-      ✅ fileUpload artifact in https://file-server.ronwebs.com/chat_api\n
-      ===================================================================="
+        ====================================================================\n
+        ✅ fileUpload artifact in https://file-server.ronwebs.com/chat_api\n
+        ===================================================================="
     when:
       branch:
         - main
