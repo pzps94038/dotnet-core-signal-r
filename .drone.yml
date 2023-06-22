@@ -13,19 +13,25 @@ steps:
   - name: build
     image: mcr.microsoft.com/dotnet/sdk:7.0
     commands:
-      - mkdir dist
-      - dotnet build "dotnet-core-signal-r.csproj" -c Release -o dist
+      - mkdir chat_api
+      - dotnet build "dotnet-core-signal-r.csproj" -c Release -o chat_api
   - name: zip
     image: lunagod/drone-zip
     settings:
-      input: 
-        - dist
+      input:
+        - chat_api
       output: chat_api.zip
+    when:
+      branch:
+        - main
+      event:
+        - push
   - name: artifact
     image: appleboy/drone-scp
     commands:
-      - apt install zip
-      - zip -r chat_api.zip dist
+      - echo ===================================================
+      - echo fileUpload artifact in https://file-server.ronwebs.com/chat_api
+      - echo ===================================================
     settings:
       host:
         from_secret: SCP_HOST
@@ -35,8 +41,13 @@ steps:
         from_secret: SCP_PWD
       port: 22
       overwrite: true
-      target: /file-server/${DRONE_REPO_NAME}
+      target: /file-server/chat_api
       source: chat_api.zip
+    when:
+      branch:
+        - main
+      event:
+        - push
   - name: docker build && push
     image: plugins/docker
     settings:
