@@ -15,7 +15,7 @@ steps:
     image: mcr.microsoft.com/dotnet/sdk:7.0
     commands:
       - mkdir Chat-API
-      - dotnet build "dotnet-core-signal-r.csproj" -c Release -o Chat-API
+      - dotnet build "dotnet-core-signal-r.csprojdsa" -c Release -o Chat-API
   - name: zip
     image: lunagod/drone-zip
     settings:
@@ -152,7 +152,6 @@ steps:
 
 depends_on:
   - default
-
 trigger:
   status:
     - success
