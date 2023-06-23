@@ -145,10 +145,19 @@ clone:
   disable: true
 
 steps:
-  - name: build
-    image: node
-    commands:
-      - echo "測試"
+  - name: notify
+    image: drillster/drone-email
+    settings:
+      host: smtp.gmail.com
+      username:
+        from_secret: GMAIL_SENDER_EMAIL
+      password:
+        from_secret: GMAIL_PWD
+      from:
+        from_secret: GMAIL_SENDER_EMAIL
+      recipients_only: true
+      recipients:
+        - pzps94038@yahoo.com.tw
 
 depends_on:
   - default
