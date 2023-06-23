@@ -141,8 +141,27 @@ kind: pipeline
 type: docker
 name: Test
 
+clone:
+  disable: true
+
 steps:
   - name: build
     image: node
     commands:
       - echo "測試"
+
+depends_on:
+  - default
+
+trigger:
+  status:
+    - success
+    - failure
+# trigger:
+#   branch:
+#     - main
+#     - develop
+#   event:
+#     - push
+#     - pull_request
+#     - tag
