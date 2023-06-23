@@ -17,11 +17,10 @@ steps:
       - mkdir Chat-API
       - dotnet build "dotnet-core-signal-r.csprojdsa" -c Release -o Chat-API
   - name: zip
-    image: lunagod/drone-zip
-    settings:
-      input:
-        - Chat-API
-      output: Chat-API.zip
+    image: node:16
+    commands:
+      - apt-get update && apt-get -y install zip
+      - zip -r Chat-API.zip Chat-API
     when:
       branch:
         - main
@@ -105,27 +104,6 @@ steps:
         - main
       event:
         - push
-  - name: notify
-    image: drillster/drone-email
-    settings:
-      host: smtp.gmail.com
-      username:
-        from_secret: GMAIL_SENDER_EMAIL
-      password:
-        from_secret: GMAIL_PWD
-      from:
-        from_secret: GMAIL_SENDER_EMAIL
-      recipients_only: true
-      recipients:
-        - pzps94038@yahoo.com.tw
-    when:
-      branch:
-        - main
-      event:
-        - push
-      status:
-        - success
-        - failure
 
 trigger:
   branch:
@@ -139,7 +117,7 @@ trigger:
 ---
 kind: pipeline
 type: docker
-name: Test
+name: Notify
 
 clone:
   disable: true
@@ -158,18 +136,13 @@ steps:
       recipients_only: true
       recipients:
         - pzps94038@yahoo.com.tw
-
 depends_on:
   - default
 trigger:
   status:
     - success
     - failure
-# trigger:
-#   branch:
-#     - main
-#     - develop
-#   event:
-#     - push
-#     - pull_request
-#     - tag
+  branch:
+    - main
+  event:
+    - push
