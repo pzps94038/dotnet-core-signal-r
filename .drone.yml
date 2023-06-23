@@ -136,8 +136,10 @@ steps:
       recipients_only: true
       recipients:
         - pzps94038@yahoo.com.tw
+
 depends_on:
   - default
+
 trigger:
   status:
     - success
